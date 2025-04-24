@@ -1,0 +1,3 @@
+"""
+PDFine package initializer
+"""

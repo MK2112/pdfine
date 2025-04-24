@@ -1,0 +1,9 @@
+# PDFine runtime
+transformers>=4.30.0
+torch>=2.0.0
+tqdm>=4.64.0
+
+# Training-related
+datasets>=1.0.0
+trl>=0.4.7
+numpy>=1.21.0
