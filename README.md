@@ -152,3 +152,7 @@ python train.py \
 - Defaults are set for maximal efficiency on a 3060 GPU.
 
 Use the resulting model in `PDFine.py` by updating `refine_pages` to load your trained seq2seq model for end-to-end PDF-to-Markdown conversion.
+
+## Tests
+
+Run `pytest tests/`.
