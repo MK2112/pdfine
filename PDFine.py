@@ -9,6 +9,7 @@ Options:
     -i, --input     Convert all PDF files in a folder to markdown.
     -o, --output    Output directory for the markdown files (default: ./output)
     -c, --concat    Concatenate all markdown files into a single file.
+    -d, --delete    Delete source PDF file(s) after conversion.
     -m, --model-dir Directory of trained T5 model for end-to-end Markdown generation
 """
 
@@ -54,17 +55,23 @@ def process_pdf(pdf_path: str) -> List[str]:
         return []
 
 # File/Folder Handling
-def convert_file(pdf_path: str, out_path: str):
+def convert_file(pdf_path: str, out_path: str, delete_src: bool = False):
     logger.info(f'Converting {pdf_path} -> {out_path}')
     pages = process_pdf(pdf_path)
     if pages:
         with open(out_path, 'w', encoding='utf-8') as f:
             f.write("\n---\n".join(pages))
         logger.info(f'Success: {pdf_path}')
+        if delete_src:
+            try:
+                os.remove(pdf_path)
+                logger.info(f'Deleted source PDF: {pdf_path}')
+            except Exception as e:
+                logger.error(f'Failed to delete {pdf_path}: {e}')
     else:
         logger.error(f'No output for {pdf_path}')
 
-def convert_folder(input_dir: str, output_dir: str, concat: bool = False):
+def convert_folder(input_dir: str, output_dir: str, concat: bool = False, delete_src: bool = False):
     pdf_files = [f for f in os.listdir(input_dir) if f.lower().endswith('.pdf')]
     os.makedirs(output_dir, exist_ok=True)
     all_md = ''
@@ -78,6 +85,12 @@ def convert_folder(input_dir: str, output_dir: str, concat: bool = False):
                 f.write("\n---\n".join(pages))
             if concat:
                 all_md += f"\n\n# {pdf_file}\n" + "\n---\n".join(pages)
+            if delete_src:
+                try:
+                    os.remove(in_path)
+                    logger.info(f'Deleted source PDF: {in_path}')
+                except Exception as e:
+                    logger.error(f'Failed to delete {in_path}: {e}')
         else:
             logger.error(f'No output for {pdf_file}')
     if concat and all_md:
@@ -97,6 +110,7 @@ def main():
     group.add_argument('-i', '--input', help='Convert all PDF files in a folder to markdown')
     parser.add_argument('-o', '--output', help='Output directory for markdown files (default: ./output)', default='output')
     parser.add_argument('-c', '--concat', action='store_true', help='Concatenate all markdown files into a single file')
+    parser.add_argument('-d', '--delete', action='store_true', help='Delete source PDF file(s) after conversion')
     parser.add_argument('-m', '--model-dir', help='Directory of trained T5 model for end-to-end Markdown generation')
     args = parser.parse_args()
     global MODEL_DIR
@@ -106,9 +120,9 @@ def main():
         os.makedirs(out_dir, exist_ok=True)
         base = os.path.splitext(os.path.basename(args.file))[0]
         out_path = os.path.join(out_dir, base + '.md')
-        convert_file(args.file, out_path)
+        convert_file(args.file, out_path, delete_src=args.delete)
     elif args.input:
-        convert_folder(args.input, args.output, args.concat)
+        convert_folder(args.input, args.output, args.concat, delete_src=args.delete)
 
 if __name__ == '__main__':
     main()
