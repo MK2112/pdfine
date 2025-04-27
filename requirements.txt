@@ -3,6 +3,13 @@ transformers>=4.30.0
 torch>=2.0.0
 tqdm>=4.64.0
 
+# PDF extraction
+PyMuPDF>=1.22.0  # fitz
+pdfminer.six>=20221105
+PyPDF2>=3.0.0
+pillow>=9.0.0  # for OCR
+pytesseract>=0.3.10  # for OCR
+
 # Training-related
 datasets>=1.0.0
 trl>=0.4.7
