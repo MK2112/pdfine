@@ -41,12 +41,18 @@ def process_pdf(pdf_path: str) -> List[str]:
                 _seq_tokenizer = T5TokenizerFast.from_pretrained(MODEL_DIR)
                 _seq_model.eval()
             pages = raw_extract_pages(pdf_path)
+            if not (isinstance(pages, list) and pages and all(isinstance(p, dict) and 'text' in p and isinstance(p['text'], str) and p['text'].strip() for p in pages)):
+                logger.error(f"raw_extract_pages produced incompatible output for {pdf_path}: {pages}")
+                return []
             text = '\n'.join(p['text'] for p in pages)
             enc = _seq_tokenizer(text, return_tensors='pt', truncation=True, max_length=1024)
             out_ids = _seq_model.generate(enc.input_ids, attention_mask=enc.attention_mask, max_length=512)
             md = _seq_tokenizer.decode(out_ids[0], skip_special_tokens=True)
             return [md.strip()]
         raw_pages = raw_extract_pages(pdf_path)
+        if not (isinstance(raw_pages, list) and raw_pages and all(isinstance(p, dict) and 'text' in p and isinstance(p['text'], str) and p['text'].strip() for p in raw_pages)):
+            logger.error(f"raw_extract_pages produced incompatible output for {pdf_path}: {raw_pages}")
+            return []
         refined_pages = refine_pages(pdf_path, raw_pages)
         md_pages = pages_to_markdown(refined_pages)
         return md_pages
