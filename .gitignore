@@ -1,0 +1,107 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+debug.log
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Pyre type checker
+.pyre/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# PyCharm
+.idea/
+*.iml
+
+# VSCode
+.vscode/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Data, models, and output
+output/
+trained_model/
+*.pdf
+*.md
+*.log
+*.out
+*.tmp
+*.bak
+*.swp
+
+# Huggingface cache and datasets
+~/.cache/huggingface/
+~/.huggingface/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+/tests/tmp/
+/tests/__pycache__/
+/tests/*.log
+/tests/*.tmp
+/tests/*.bak
+
+# Ignore secrets and credentials
+.env
+.env.*
+secrets.*
+
+# Ignore local scripts
+local_*
+
+# Ignore pipenv and poetry
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# Ignore PDFine artifacts
+pdfine/__pycache__/
+pdfine/*.pyc
+pdfine/*.pyo
+pdfine/*.log
