@@ -48,10 +48,17 @@ Options:
 
 ## Training
 
-Train a model:
-```bash
+To train your own PDF-to-Markdown model, use the `train.py` script. Specify your dataset, models, and output directory. For example:
 
----
+```bash
+python train.py --dataset-name <your-dataset> --seq-model <t5-model> --world-model <gpt2-model> --output-dir trained_model
+```
+
+You can further customize training with options such as `--epochs`, `--batch-size`, `--ppo-epochs`, `--structure-weight`, `--halluc-weight`, and more. For a full list of arguments, run:
+
+```bash
+python train.py --help
+```
 
 ## License & Commercial Usage
 
@@ -62,11 +69,6 @@ However, there are some restrictions on commercial usage:
 - **Commercial use is permitted** for organizations with **less than $5M USD** in gross revenue (last 12 months) **and** less than $5M USD in total VC/angel funding raised.
 - If your organization exceeds these thresholds, or if you wish to obtain a commercial or dual license, please contact [mk2112@protonmail.com](mailto:mk2112@protonmail.com)
 - You may not use PDFine in products or services that directly compete with PDFine or its hosted offerings, unless you have a separate commercial agreement.
-
-For further details or to discuss commercial licensing, email mk2112@protonmail.com.
-python train.py --dataset-name <dataset> --seq-model <t5-model> --world-model <gpt2-model> --output-dir trained_model
-```
-See `train.py` for all options.
 
 ## Notes
 
