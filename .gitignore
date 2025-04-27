@@ -65,7 +65,6 @@ coverage.xml
 output/
 trained_model/
 *.pdf
-*.md
 *.log
 *.out
 *.tmp
